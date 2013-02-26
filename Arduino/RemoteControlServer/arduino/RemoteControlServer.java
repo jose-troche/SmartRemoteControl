@@ -115,6 +115,7 @@ public class RemoteControlServer {
 			serialPort.setSerialPortParams(9600, SerialPort.DATABITS_8,
 					SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 			OutputStream outSerialPort = serialPort.getOutputStream();
+			command += "\n";
 			outSerialPort.write(command.getBytes());
 		}
 		catch (Exception e){
