@@ -24,6 +24,8 @@ public class RemoteControlServer {
 		if (args.length > 1) 
 			serialPortName = args[1];
 
+		initSerialPort();
+		
 		listenSocket = new ServerSocket(serverPort);
 		System.out.println("Server waiting for requests on port " + serverPort + 
 				" and sending commands to serial port " + serialPortName);
@@ -81,17 +83,27 @@ public class RemoteControlServer {
 		}
 	}
 	
-	private static void writeToSerialPort(String command){
+	private static int writeToSerialPort(String command){
+		String dosCommand = "echo " + command + ">" + serialPortName;
+		return executeExternalCommand(dosCommand);
+	}
+	
+	private static int initSerialPort(){
+		String dosCommand = "mode " + serialPortName + " 9600,n,8,1";
+		return executeExternalCommand(dosCommand);
+	}
+	
+	private static int executeExternalCommand(String dosCommand){
+		int exitCode = 0;
 		try {
-			String dosCommand = "mode " + serialPortName +
-					" 9600,n,8,1 && echo " + command + ">" + serialPortName;
 			Process pr = Runtime.getRuntime().exec("cmd /c " + dosCommand);
-			pr.waitFor(); // Wait until execution is finished
+			exitCode = pr.waitFor(); // Wait until execution is finished
 		}
 		catch (Exception e){
-			System.err.println("Error when writing to serial port " +
+			System.err.println("Error when working on serial port " +
 					serialPortName + ", " + e);
 			System.exit(-1);
 		}
+		return exitCode;
 	}
 }
