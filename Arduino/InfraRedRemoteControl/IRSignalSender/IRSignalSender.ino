@@ -280,7 +280,7 @@ void loop() {
   if (Serial.available()) {
     if (++idx < CMD_MAX_LEN){
       command[idx] = Serial.read();
-      if (command[idx] == '\n') {
+      if (command[idx] == '\n' || command[idx] == '\r') {
         command[idx] = 0;
         execute(command);
         idx = -1;
