@@ -1,15 +1,15 @@
 #!/bin/bash
+# Modify with values in your environment
 
-# This script has to be modified with values in your environment
+PORT=4444
+SERIAL=/dev/cu.usbmodemfa131
 
-# Please set the path where arduino is installed
-ARDUINO_PATH=/home/arduino-1.0.3
-JAVA=$ARDUINO_PATH/java/bin/java
-RXTX=$ARDUINO_PATH/lib/RXTXcomm.jar
-# RXTX_LIB_PATH is where the rxtxSerial lib is located
-RXTX_LIB_PATH=$ARDUINO_PATH
-SERVER_PORT=80
-SERIAL_PORT=COM4
-echo Control+C to stop server
-echo -n
-$JAVA -cp .;$RXTX -Djava.library.path=$RXTX_LIB_PATH arduino.RemoteControlServer $SERVER_PORT $SERIAL_PORT
+while true ; do
+	request=`(echo -e 'HTTP/1.1 200 OK\n\n'; cat index.html) |
+            nc -l $PORT | grep  "^GET /" | cut -d " " -f 2`
+	command=`expr $request : '^/cmd/\([A-z_]*\)'`
+	if [[ $command ]]; then
+		echo Sending command $command
+		echo  $command > $SERIAL
+	fi
+done
