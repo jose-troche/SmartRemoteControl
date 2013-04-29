@@ -3,6 +3,8 @@
 ################################################################################
 
 # export PYTHONPATH=<LeapDir>/LeapSDK/lib
+# or in Windows:
+# set PYTHONPATH=<LeapDir>\LeapSDK\lib;<LeapDir>\LeapSDK\lib\x64
 # So that python can find the Leap module
 import Leap, sys, requests
 
@@ -36,19 +38,19 @@ class LeapListener(Leap.Listener):
             roll  = hand.palm_normal.roll * Leap.RAD_TO_DEG
             pitch = hand.direction.pitch * Leap.RAD_TO_DEG
 
-            print "Hand pitch: %.0f degrees, roll: %.0f degrees" % (pitch, roll)
+            print "Hand roll: %.0f degrees, pitch %.0f degrees, " % (roll, pitch)
 
-            if abs(-35-roll) < 5:
-                self.send_command('dvd_play')
+            if abs(-35-roll) < 5: # right
+                self.send_command('tv_vol_up')
 
-            if abs(35-roll) < 5:
-                self.send_command('dvd_stop')
+            if abs(35-roll) < 5:  # left
+                self.send_command('tv_vol_down')
 
-            if abs(35-pitch) < 5:
-                self.send_command('dvd_power')
+            if abs(35-pitch) < 5: # pointing up
+                self.send_command('tv_vol_up')
 
-            if abs(-20-pitch) < 5:
-                self.send_command('dvd_eject')
+            if abs(-20-pitch) < 5:  # pointing down
+                self.send_command('tv_vol_down')
 
     def send_command(self, cmd):
         "Sends a command to Arduino Web Server"
