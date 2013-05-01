@@ -1,5 +1,5 @@
 Smart Remote Control
 ====================
 
-A Remote Control activated by finger and face gestures, voice commands and phone movements
+An Arduino-based Remote Control operated with hand gestures and neuroheadset signals
 
