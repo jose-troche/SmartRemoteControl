@@ -1025,7 +1025,7 @@ void execute(char * command){
   else if (strcmp("tv_vol_down", command) == 0){
     int len = NELEMS(tv_vol_down);
     sendIRsignal(tv_vol_down, len);
-  }
+  }/*
   else if (strcmp("dvd_power", command) == 0){
     int len = NELEMS(dvd_power);
     sendIRsignal(dvd_power, len);
@@ -1069,7 +1069,7 @@ void execute(char * command){
   else if (strcmp("apple_right", command) == 0){
     int len = NELEMS(apple_right);
     sendIRsignal(apple_right, len);
-  }
+  }*/
   else if (strcmp("heli_up", command) == 0){
     int len = NELEMS(heli_up);
     sendIRsignal(heli_up, len);
@@ -1085,6 +1085,8 @@ void execute(char * command){
 
 void sendIRsignal(int signal[], int len){
   long msecs;
+  Serial.print("len ");
+  Serial.println(len);
   digitalWrite(ledPin, HIGH);
   for (int i=0; i<len; i++){
     msecs = signal[i]*10;
