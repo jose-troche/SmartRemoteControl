@@ -17,7 +17,8 @@ class LeapListener(Leap.Listener):
     time_resolution = 1000000 * 1.5
 
     # Url where commands are sent
-    ARDUINO_SERVER_URL = 'http://localhost:4444/cmd/'
+    # ARDUINO_SERVER_URL = 'http://192.168.11.4:4444/cmd/'
+    ARDUINO_SERVER_URL = 'http://10.1.102.70:4444/cmd/'
 
     def on_frame(self, controller):
         # Get the most recent frame
@@ -38,7 +39,7 @@ class LeapListener(Leap.Listener):
             roll  = hand.palm_normal.roll * Leap.RAD_TO_DEG
             pitch = hand.direction.pitch * Leap.RAD_TO_DEG
 
-            print "Hand roll: %.0f degrees, pitch %.0f degrees, " % (roll, pitch)
+            print "Hand roll: %.0f deg, pitch %.0f deg, " % (roll, pitch)
 
             if abs(-35-roll) < 5: # right
                 self.send_command('tv_vol_up')
@@ -47,7 +48,7 @@ class LeapListener(Leap.Listener):
                 self.send_command('tv_vol_down')
 
             if abs(35-pitch) < 5: # pointing up
-                self.send_command('tv_vol_up')
+                self.send_command('heli_up')
 
             if abs(-20-pitch) < 5:  # pointing down
                 self.send_command('tv_vol_down')
