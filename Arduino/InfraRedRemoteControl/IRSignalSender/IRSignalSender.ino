@@ -1,8 +1,10 @@
 #define CMD_MAX_LEN 32
+#define MAX_SIGNAL_LEN 200
 #define IRledPin 3 // IR LED connected to digital pin 3
 #define ledPin  13 // Regular LED to pin 13
 #define NELEMS(x)  (sizeof(x) / sizeof(x[0]))
 
+/* Terminate the signal int arrays with 0 or a negative number ! */
 int tv_power[] = {
 892, 430,
 68, 40,
@@ -341,7 +343,7 @@ int dvd_eject[] = {
 66, 3864,
 896, 212,
 68, 0};
-
+/*
 int dvd_stop[] = {
 894, 442,
 60, 158,
@@ -775,164 +777,7 @@ int apple_menu[] = {
 72, 144,
 74, 38,
 74, 0};
-
-int heli_on[] = {
-54, 22,
-170, 22,
-56, 22,
-56, 22,
-56, 22,
-54, 24,
-56, 20,
-56, 22,
-56, 22,
-94, 22,
-56, 22,
-56, 22,
-54, 22,
-56, 22,
-56, 22,
-56, 22,
-54, 22,
-94, 22,
-94, 22,
-94, 22,
-94, 22,
-94, 22,
-56, 22,
-54, 26,
-54, 20,
-56, 22,
-92, 24,
-94, 22,
-92, 26,
-90, 24,
-92, 24,
-54, 2599,
-56, 20,
-170, 22,
-56, 22,
-56, 22,
-56, 22,
-54, 22,
-56, 22,
-56, 22,
-56, 20,
-96, 22,
-54, 24,
-54, 22,
-56, 22,
-54, 24,
-56, 20,
-92, 28,
-90, 26,
-90, 22,
-94, 22,
-94, 22,
-56, 22,
-56, 22,
-54, 22,
-56, 22,
-94, 22,
-94, 22,
-94, 22,
-94, 24,
-90, 24,
-54, 0};
-
-int heli_up1[] = {
-58, 20,
-168, 26,
-92, 22,
-94, 22,
-56, 22,
-56, 22,
-54, 24,
-54, 24,
-92, 24,
-92, 24,
-54, 22,
-56, 22,
-56, 22,
-56, 22,
-54, 26,
-54, 22,
-92, 24,
-92, 24,
-92, 22,
-94, 24,
-92, 24,
-54, 24,
-54, 22,
-54, 24,
-54, 24,
-92, 26,
-90, 24,
-90, 26,
-94, 20,
-92, 24,
-56, 2613,
-54, 22,
-168, 28,
-50, 28,
-50, 26,
-50, 28,
-52, 26,
-50, 26,
-52, 28,
-52, 24,
-92, 24,
-52, 26,
-50, 28,
-50, 26,
-54, 26,
-50, 24,
-94, 22,
-92, 26,
-88, 28,
-90, 26,
-90, 26,
-54, 24,
-52, 26,
-50, 28,
-52, 26,
-88, 28,
-88, 28,
-88, 26,
-90, 26,
-88, 28,
-50, 2623,
-50, 24,
-168, 28,
-50, 28,
-50, 24,
-56, 24,
-52, 26,
-50, 28,
-50, 28,
-50, 26,
-90, 28,
-48, 28,
-50, 28,
-52, 26,
-50, 28,
-50, 28,
-90, 26,
-88, 28,
-88, 26,
-90, 26,
-88, 28,
-52, 26,
-52, 26,
-50, 28,
-50, 28,
-88, 28,
-86, 30,
-88, 26,
-90, 28,
-86, 28,
-52, 0};
-
+*/
 int heli_up[] = {
 56, 22,
 168, 24,
@@ -999,41 +844,32 @@ void execute(char * command){
   Serial.print("Executing command ");
   Serial.println(command);
   if (strcmp("tv_power", command) == 0){
-    int len = NELEMS(tv_power);
-    sendIRsignal(tv_power, len);
-  } 
+    sendIRsignal(tv_power);
+  }
   else if (strcmp("tv_tv", command) == 0){
-    int len = NELEMS(tv_tv);
-    sendIRsignal(tv_tv, len);
+    sendIRsignal(tv_tv);
   }
   else if (strcmp("tv_hdmi", command) == 0){
-    int len = NELEMS(tv_hdmi);
-    sendIRsignal(tv_hdmi, len);
+    sendIRsignal(tv_hdmi);
   }
   else if (strcmp("tv_ch_up", command) == 0){
-    int len = NELEMS(tv_ch_up);
-    sendIRsignal(tv_ch_up, len);
+    sendIRsignal(tv_ch_up);
   }
   else if (strcmp("tv_ch_down", command) == 0){
-    int len = NELEMS(tv_ch_down);
-    sendIRsignal(tv_ch_down, len);
+    sendIRsignal(tv_ch_down);
   }
   else if (strcmp("tv_vol_up", command) == 0){
-    int len = NELEMS(tv_vol_up);
-    sendIRsignal(tv_vol_up, len);
+    sendIRsignal(tv_vol_up);
   }
   else if (strcmp("tv_vol_down", command) == 0){
-    int len = NELEMS(tv_vol_down);
-    sendIRsignal(tv_vol_down, len);
-  }/*
+    sendIRsignal(tv_vol_down);
+  }
   else if (strcmp("dvd_power", command) == 0){
-    int len = NELEMS(dvd_power);
-    sendIRsignal(dvd_power, len);
+    sendIRsignal(dvd_power);
   }
   else if (strcmp("dvd_eject", command) == 0){
-    int len = NELEMS(dvd_eject);
-    sendIRsignal(dvd_eject, len);
-  }
+    sendIRsignal(dvd_eject);
+  }/*
   else if (strcmp("dvd_stop", command) == 0){
     int len = NELEMS(dvd_stop);
     sendIRsignal(dvd_stop, len);
@@ -1071,24 +907,18 @@ void execute(char * command){
     sendIRsignal(apple_right, len);
   }*/
   else if (strcmp("heli_up", command) == 0){
-    int len = NELEMS(heli_up);
-    sendIRsignal(heli_up, len);
-  }
-  else if (strcmp("heli_up1", command) == 0){
-    int len = NELEMS(heli_up1);
-    sendIRsignal(heli_up1, len);
+    /*int len = NELEMS(heli_up);*/
+    sendIRsignal(heli_up);/*, len);*/
   }
   else {
     Serial.println("Unknonwn command");
   }
 }
 
-void sendIRsignal(int signal[], int len){
+void sendIRsignal(int signal[]/*, int len*/){
   long msecs;
-  Serial.print("len ");
-  Serial.println(len);
   digitalWrite(ledPin, HIGH);
-  for (int i=0; i<len; i++){
+  for (int i=0; signal[i]>0 && i<MAX_SIGNAL_LEN/*i<len*/; i++){
     msecs = signal[i]*10;
     if (i%2 == 0){ 
       pulseIR(msecs);
@@ -1109,9 +939,9 @@ void pulseIR(long microsecs) {
   while (microsecs > 0) {
     // 38 kHz is about 13 microseconds high and 13 microseconds low
    digitalWrite(IRledPin, HIGH);  // this takes about 3 microseconds to happen
-   delayMicroseconds(10);         // hang out for 10 microseconds, you can also change this to 9 if its not working
+   delayMicroseconds(9);         // hang out for 10 microseconds, you can also change this to 9 if its not working
    digitalWrite(IRledPin, LOW);   // this also takes about 3 microseconds
-   delayMicroseconds(10);         // hang out for 10 microseconds, you can also change this to 9 if its not working
+   delayMicroseconds(9);         // hang out for 10 microseconds, you can also change this to 9 if its not working
  
    // so 26 microseconds altogether
    microsecs -= 26;
